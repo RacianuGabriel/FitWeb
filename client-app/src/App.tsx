@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import icon from './icon.svg';
+import icon2 from './icon2.svg';
 
 function App() {
   const [workouts, setWorkouts] = useState<any[]>([]);
@@ -21,11 +21,11 @@ function App() {
 
   return (
     <div>
-      <Navbar expand="lg" className='bg-body-tertiary'>
+      <Navbar expand="lg" className='bg-primary' data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#home">
             <img
-              src={icon}
+              src={icon2}
               width="30"
               height="30"
               className="d-inline-block align-top"
