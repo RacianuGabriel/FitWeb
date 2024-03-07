@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain;
 using MediatR;
 
@@ -11,27 +12,23 @@ namespace Application.Workouts
     {
         public class Command : IRequest
         {
-            public Workout ?Workout { get; set; }
+            public Workout? Workout { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
         {
             private readonly Persistence.DataContext _context;
-            public Handler(Persistence.DataContext context)
+            private readonly IMapper _mapper;
+
+            public Handler(Persistence.DataContext context, IMapper mapper)
             {
                 _context = context;
+                _mapper = mapper;
             }
             public async Task<Unit> Handle(Command request, System.Threading.CancellationToken cancellationToken)
             {
                 var workout = await _context.Workouts.FindAsync(request.Workout.Id);
-                if (workout == null)
-                {
-                    throw new Exception("Could not find workout");
-                }
-                workout.Title = request.Workout.Title ?? workout.Title;
-                workout.Description = request.Workout.Description ?? workout.Description;
-                workout.Date = request.Workout.Date;
-                workout.Category = request.Workout.Category ?? workout.Category;
+                _mapper.Map(request.Workout, workout);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;
