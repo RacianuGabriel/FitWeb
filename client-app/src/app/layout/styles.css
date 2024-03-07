@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.separator {
+  border-right: 1px solid #ddd; /* Adjust color as needed */
+  height: 50%; /* Adjust height as needed */
+  margin: auto 0; /* Vertically center the separator */
+}
