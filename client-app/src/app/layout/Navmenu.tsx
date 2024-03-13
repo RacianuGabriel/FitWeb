@@ -8,7 +8,7 @@ import Button  from 'react-bootstrap/Button';
 
 export default function Navmenu() {
 	return (
-		<Navbar expand="lg" className='bg-primary' data-bs-theme="dark" style={{padding: 10}}>
+		<Navbar expand="md" className='bg-primary' data-bs-theme="dark" style={{padding: 10}}>
         <Container>
           <Navbar.Brand href="#home">
             <img

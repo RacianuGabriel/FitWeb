@@ -1,19 +1,44 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 .separator {
   border-right: 1px solid #ddd; /* Adjust color as needed */
   height: 50%; /* Adjust height as needed */
   margin: auto 0; /* Vertically center the separator */
+}
+
+.container-fluid .jumbotron, .container .jumbotron {
+  border-radius: 6px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media screen and (min-width: 768px)
+{
+.container-fluid .jumbotron, .container .jumbotron {
+    padding-left: 60px;
+    padding-right: 60px;
+}
+}
+
+@media screen and (min-width: 768px)
+{
+.jumbotron {
+    padding-bottom: 48px;
+    padding-top: 48px;
+}
+}
+
+.jumbotron {
+  background-color: #eee;
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  min-height: 200px;
+}
+
+
+@media (min-width: 992px) { /* This is the breakpoint for 'lg' screens in Bootstrap */
+  .container-lg-custom {
+    max-width: 80%; /* Replace with your desired width */
+  }
 }

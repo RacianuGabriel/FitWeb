@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Navmenu from './Navmenu';
 import { Workout } from '../models/workout';
+import WorkoutDashboard from '../../features/workouts/dashboard/WorkoutDashboard';
 
 function App() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
 
   useEffect(() => {
     axios.get<Workout[]>('http://localhost:5000/api/workouts')
@@ -14,16 +15,23 @@ function App() {
       }); 
   }, [])
 
+  function handleSelectWorkout(id: string) {
+    setSelectedWorkout(workouts.find(x => x.id === id) ?? null);
+  }
+
+  function handleCancelSelectWorkout() {
+    setSelectedWorkout(null);
+  }
+
   return (
     <Fragment>
-      <Navmenu />``
-      <ListGroup>
-          {workouts.map(workout => (
-              <ListGroup.Item key={workout.id}>
-                {workout.title}
-              </ListGroup.Item>
-              ))} 
-      </ListGroup>
+      <Navmenu />
+      <WorkoutDashboard 
+        workouts={workouts}
+        selectWorkout={handleSelectWorkout}
+        selectedWorkout={selectedWorkout}
+        cancelSelectWorkout={handleCancelSelectWorkout}
+      />
     </Fragment>
   );
 }
