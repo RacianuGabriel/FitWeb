@@ -12,10 +12,16 @@ interface Props {
 	selectWorkout: (id: string) => void;
 	selectedWorkout: Workout | null;
 	cancelSelectWorkout: () => void;
+	closeForm: () => void;
+	openForm: (id?: string) => void;
+	editMode: boolean;
+	editOrCreateWorkout: (workout: Workout) => void;
+	deleteWorkout: (id: string) => void;
 }
 
 export default function WorkoutDashboard({workouts,selectWorkout,
-	selectedWorkout,cancelSelectWorkout}: Props) {
+	selectedWorkout,cancelSelectWorkout,editOrCreateWorkout,
+	editMode,closeForm, openForm,deleteWorkout}: Props) {
 	  return (
 		<>
 			<WorkoutJumbotron/>
@@ -31,7 +37,13 @@ export default function WorkoutDashboard({workouts,selectWorkout,
 					} 
 				</Row>
 				{selectedWorkout &&
-				<WorkoutDetails selectedWorkout={selectedWorkout} cancelSelectedWorkout={cancelSelectWorkout}/>}
+				<WorkoutDetails selectedWorkout={selectedWorkout} 
+								cancelSelectedWorkout={cancelSelectWorkout}
+								editMode={editMode}
+								openForm={openForm}
+								closeForm={closeForm}
+								editOrCreateWorkout={editOrCreateWorkout}
+								deleteWorkout={deleteWorkout}/>}
 			</Container>
 		</>
   );
