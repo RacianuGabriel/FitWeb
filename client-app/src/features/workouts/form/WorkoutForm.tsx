@@ -5,10 +5,12 @@ import { Workout } from "../../../app/models/workout";
 interface Props{
 	closeForm: () => void;
 	workout: Workout | null;
-	editOrCreateWorkout: (workout: Workout) => void;
+	editOrCreateWorkout: (event: React.FormEvent, workout: Workout) => void;
+	submitting: boolean;
 }
 
-export function WorkoutForm({closeForm,workout,editOrCreateWorkout}: Props) {
+export function WorkoutForm({closeForm,workout,editOrCreateWorkout,
+	submitting}: Props) {
 
 	const initialState = workout ?? {
 		id: '',
@@ -20,8 +22,8 @@ export function WorkoutForm({closeForm,workout,editOrCreateWorkout}: Props) {
 
 	const [workoutForm, setWorkoutForm] = React.useState(initialState);
 
-	function handleSubmit() {
-		editOrCreateWorkout(workoutForm);
+	function handleSubmit(event: React.FormEvent) {
+		editOrCreateWorkout(event,workoutForm);
 	}
 
 	function inputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
@@ -30,7 +32,7 @@ export function WorkoutForm({closeForm,workout,editOrCreateWorkout}: Props) {
 	}
 
   	return <Container fluid className="my-5 p-3 border bg-primary text-white rounded">
-			<Form onSubmit={handleSubmit} autoComplete="off">
+			<Form onSubmit={(event) => handleSubmit(event)} autoComplete="off">
 				<Form.Group>
 					<Form.Label>Title</Form.Label>
 					<Form.Control 	type="text" 
@@ -69,7 +71,16 @@ export function WorkoutForm({closeForm,workout,editOrCreateWorkout}: Props) {
 								  onChange={inputChange} />
 				</Form.Group>
 				<ButtonGroup className="w-100 mt-4">
-					<Button variant="success" type="submit">Submit</Button>
+					<Button variant="success" type="submit">
+					{submitting ? (
+						<>
+						<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<span className="visually-hidden">Loading...</span>
+						</>
+					) : (
+						'Submit'
+					)}
+					</Button>
 					<Button onClick={closeForm} variant="danger" type="button" content="Cancel">Cancel</Button>
 				</ButtonGroup>
 			</Form>

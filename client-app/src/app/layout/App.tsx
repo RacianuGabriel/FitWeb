@@ -1,19 +1,28 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import axios from 'axios';
 import Navmenu from './Navmenu';
 import { Workout } from '../models/workout';
 import WorkoutDashboard from '../../features/workouts/dashboard/WorkoutDashboard';
 import { v4 as uuid } from 'uuid';
+import agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    axios.get<Workout[]>('http://localhost:5000/api/workouts')
+    agent.Workouts.list()
       .then(response => {
-        setWorkouts(response.data);
+        let workouts: Workout[] =[];
+        response.forEach(workout => {
+          workout.date = workout.date.split('T')[0];
+          workouts.push(workout);
+        })
+        setWorkouts(workouts);
+        setLoading(false);
       }); 
   }, [])
 
@@ -34,17 +43,37 @@ function App() {
     setEditMode(false);
   }
 
-  function handleCreateOrEditWorkout(workout: Workout) {
-    workout.id ? setWorkouts([...workouts.filter(x => x.id !== workout.id), workout]) 
-    : setWorkouts([...workouts, {...workout, id: uuid()}]);
-    setEditMode(false);
-    setSelectedWorkout(workout);
+  function handleCreateOrEditWorkout(event: React.FormEvent, workout: Workout) {
+    event.preventDefault();
+    setSubmitting(true);
+    if(workout.id) {
+      agent.Workouts.update(workout).then(() => {
+        setWorkouts([...workouts.filter(x => x.id !== workout.id), workout]);
+        setSelectedWorkout(workout);
+        setEditMode(false);
+        setSubmitting(false);
+      })
+    }
+    else {
+      workout.id = uuid();
+      agent.Workouts.create(workout).then(() => {
+        setWorkouts([...workouts, workout]);
+        setSelectedWorkout(workout);
+        setEditMode(false);
+        setSubmitting(false);
+      })
+    }
   }
 
   function handleDeleteWorkout(id: string) {
-    setWorkouts([...workouts.filter(x => x.id !== id)]);
-    setSelectedWorkout(null);
+    setSubmitting(true);
+    agent.Workouts.delete(id).then(() => {
+      setWorkouts([...workouts.filter(x => x.id !== id)]);
+      setSubmitting(false);
+    })
   }
+
+  //if (loading) return <LoadingComponent content='Loading app'/>
 
   return (
     <Fragment>
@@ -56,7 +85,9 @@ function App() {
         cancelSelectWorkout={handleCancelSelectWorkout}
         editOrCreateWorkout={handleCreateOrEditWorkout}
         deleteWorkout={handleDeleteWorkout}
+        submitting={submitting}
       />
+      {loading ? <LoadingComponent content='Loading app'/> : 
       <WorkoutDashboard 
         workouts={workouts}
         selectWorkout={handleSelectWorkout}
@@ -67,7 +98,9 @@ function App() {
         editMode={editMode}
         editOrCreateWorkout={handleCreateOrEditWorkout}
         deleteWorkout={handleDeleteWorkout}
+        submitting={submitting}
       />
+      }
     </Fragment>
   );
 }

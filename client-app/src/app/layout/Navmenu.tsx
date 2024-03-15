@@ -13,13 +13,14 @@ interface Props {
   closeForm: () => void;
   selectedWorkout: Workout | null;
   cancelSelectWorkout: () => void;
-  editOrCreateWorkout: (workout: Workout) => void;
+  editOrCreateWorkout: (event: React.FormEvent, workout: Workout) => void;
   deleteWorkout: (id: string) => void;
+  submitting: boolean;
 }
 
 
 export default function Navmenu({editMode,openForm,closeForm,
-  selectedWorkout,cancelSelectWorkout,
+  selectedWorkout,cancelSelectWorkout,submitting,
   editOrCreateWorkout,deleteWorkout}: Props) {
 	return (
     <>
@@ -54,7 +55,9 @@ export default function Navmenu({editMode,openForm,closeForm,
             selectedWorkout={selectedWorkout}
             cancelSelectedWorkout={cancelSelectWorkout} 
             editOrCreateWorkout={editOrCreateWorkout}
-            deleteWorkout={deleteWorkout}/>}
+            deleteWorkout={deleteWorkout}
+            submitting={submitting}
+            />}
       </>
 	)
 }

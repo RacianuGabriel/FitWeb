@@ -15,13 +15,15 @@ interface Props {
 	closeForm: () => void;
 	openForm: (id?: string) => void;
 	editMode: boolean;
-	editOrCreateWorkout: (workout: Workout) => void;
+	editOrCreateWorkout: (event: React.FormEvent, workout: Workout) => void;
 	deleteWorkout: (id: string) => void;
+	submitting: boolean;
 }
 
 export default function WorkoutDashboard({workouts,selectWorkout,
 	selectedWorkout,cancelSelectWorkout,editOrCreateWorkout,
-	editMode,closeForm, openForm,deleteWorkout}: Props) {
+	editMode,closeForm, openForm,deleteWorkout,
+	submitting}: Props) {
 	  return (
 		<>
 			<WorkoutJumbotron/>
@@ -43,7 +45,8 @@ export default function WorkoutDashboard({workouts,selectWorkout,
 								openForm={openForm}
 								closeForm={closeForm}
 								editOrCreateWorkout={editOrCreateWorkout}
-								deleteWorkout={deleteWorkout}/>}
+								deleteWorkout={deleteWorkout}
+								submitting={submitting}/>}
 			</Container>
 		</>
   );

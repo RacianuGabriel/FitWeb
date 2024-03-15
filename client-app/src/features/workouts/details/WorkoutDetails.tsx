@@ -14,14 +14,16 @@ interface Props {
 	closeForm: () => void;
 	openForm: (id?: string) => void;
 	editMode: boolean;
-	editOrCreateWorkout: (workout: Workout) => void;
+	editOrCreateWorkout: (event: React.FormEvent, workout: Workout) => void;
 	deleteWorkout: (id: string) => void;
+	submitting: boolean;
 }
 
 
 
 export default function ActivityDetails({cancelSelectedWorkout,selectedWorkout,
-	editMode,closeForm,openForm,editOrCreateWorkout,deleteWorkout}: Props) {
+	editMode,closeForm,openForm,editOrCreateWorkout,deleteWorkout,
+	submitting}: Props) {
 	return (
 		<Offcanvas show='true' onHide={() => {
 			cancelSelectedWorkout();
@@ -41,7 +43,16 @@ export default function ActivityDetails({cancelSelectedWorkout,selectedWorkout,
 							<h6>{selectedWorkout.date}</h6>
 							<ButtonGroup className='w-100'>
 								<Button variant='success' onClick={() => openForm(selectedWorkout.id)}>Edit</Button>
-								<Button variant='danger' onClick={() => deleteWorkout(selectedWorkout.id)}>Delete</Button>
+								<Button variant='danger' onClick={() => deleteWorkout(selectedWorkout.id)}>
+								{submitting ? (
+									<>
+									<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+									<span className="visually-hidden">Loading...</span>
+									</>
+								) : (
+									'Delete'
+								)}
+								</Button>
 							</ButtonGroup>
 						</Card.Text>
 					</Card>
@@ -51,6 +62,7 @@ export default function ActivityDetails({cancelSelectedWorkout,selectedWorkout,
 					closeForm={closeForm}
 					workout={selectedWorkout}
 					editOrCreateWorkout={editOrCreateWorkout}
+					submitting={submitting}
 				/>
 				}
 			</Offcanvas.Body>
