@@ -1,29 +1,19 @@
 import React from 'react';
-import { Workout } from '../../../app/models/workout';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Card from 'react-bootstrap/Card';
 import WorkoutImage from '../../../workoutImg.jpg';
 import {  ButtonGroup } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { WorkoutForm } from '../form/WorkoutForm';
+import { useStore } from '../../../app/stores/store';
+import { observer } from 'mobx-react-lite';
+import WorkoutForm from '../form/WorkoutForm';
+
+export default observer(function ActivityDetails() {
+	const {workoutStore} = useStore();
+	const {selectedWorkout, editMode, closeForm, 
+		openForm, cancelSelectedWorkout, submitting, deleteWorkout} = workoutStore;
 
 
-interface Props {
-	selectedWorkout: Workout | null;
-	cancelSelectedWorkout: () => void;
-	closeForm: () => void;
-	openForm: (id?: string) => void;
-	editMode: boolean;
-	editOrCreateWorkout: (event: React.FormEvent, workout: Workout) => void;
-	deleteWorkout: (id: string) => void;
-	submitting: boolean;
-}
-
-
-
-export default function ActivityDetails({cancelSelectedWorkout,selectedWorkout,
-	editMode,closeForm,openForm,editOrCreateWorkout,deleteWorkout,
-	submitting}: Props) {
 	return (
 		<Offcanvas show='true' onHide={() => {
 			cancelSelectedWorkout();
@@ -37,7 +27,7 @@ export default function ActivityDetails({cancelSelectedWorkout,selectedWorkout,
 					<Card className="bg-primary text-white">
 						<Card.Img variant="top" src={WorkoutImage} />
 						<Card.Title>{selectedWorkout.title}</Card.Title>
-						<Card.Text>
+						<Card.Body>
 							<h5>{selectedWorkout.description}</h5>
 							<p>{selectedWorkout.category}</p>
 							<h6>{selectedWorkout.date}</h6>
@@ -54,18 +44,14 @@ export default function ActivityDetails({cancelSelectedWorkout,selectedWorkout,
 								)}
 								</Button>
 							</ButtonGroup>
-						</Card.Text>
+						</Card.Body>
 					</Card>
 				}
 				{editMode === true &&
-				<WorkoutForm
-					closeForm={closeForm}
-					workout={selectedWorkout}
-					editOrCreateWorkout={editOrCreateWorkout}
-					submitting={submitting}
-				/>
+				<WorkoutForm/>
 				}
 			</Offcanvas.Body>
 		</Offcanvas>
 	)
 }
+)

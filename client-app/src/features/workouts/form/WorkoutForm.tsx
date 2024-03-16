@@ -1,18 +1,15 @@
 import React from "react";
 import { Button, ButtonGroup, Container, Form } from "react-bootstrap";
-import { Workout } from "../../../app/models/workout";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props{
-	closeForm: () => void;
-	workout: Workout | null;
-	editOrCreateWorkout: (event: React.FormEvent, workout: Workout) => void;
-	submitting: boolean;
-}
+export default observer( function WorkoutForm() {
+	const {workoutStore} = useStore();
+	const {closeForm, selectedWorkout,submitting,updateWorkout,createWorkout} = workoutStore;
 
-export function WorkoutForm({closeForm,workout,editOrCreateWorkout,
-	submitting}: Props) {
 
-	const initialState = workout ?? {
+
+	const initialState = selectedWorkout ?? {
 		id: '',
 		title: '',
 		description: '',
@@ -23,7 +20,8 @@ export function WorkoutForm({closeForm,workout,editOrCreateWorkout,
 	const [workoutForm, setWorkoutForm] = React.useState(initialState);
 
 	function handleSubmit(event: React.FormEvent) {
-		editOrCreateWorkout(event,workoutForm);
+		event.preventDefault();
+		workoutForm.id ? updateWorkout(workoutForm) : createWorkout(workoutForm);
 	}
 
 	function inputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
@@ -85,4 +83,4 @@ export function WorkoutForm({closeForm,workout,editOrCreateWorkout,
 				</ButtonGroup>
 			</Form>
 		</Container>;
-}
+})
