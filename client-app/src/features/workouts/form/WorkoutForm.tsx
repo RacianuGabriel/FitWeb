@@ -1,33 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, ButtonGroup, Container, Form } from "react-bootstrap";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
+import { Link, useParams } from "react-router-dom";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import {v4 as uuid} from 'uuid';
+import { useNavigate } from "react-router-dom";
 
 export default observer( function WorkoutForm() {
 	const {workoutStore} = useStore();
-	const {closeForm, selectedWorkout,submitting,updateWorkout,createWorkout} = workoutStore;
+	const { loadWorkout,submitting,updateWorkout,
+		createWorkout,loadingInitial} = workoutStore;
+	const navigate = useNavigate();
 
+	const {id} = useParams<{id: string}>();
 
-
-	const initialState = selectedWorkout ?? {
+	const [workoutForm, setWorkoutForm] =useState({
 		id: '',
 		title: '',
 		description: '',
 		category: '',
 		date: ''
-	}
-
-	const [workoutForm, setWorkoutForm] = React.useState(initialState);
+	});
+	
+	useEffect(() => {
+		if (id) {
+			loadWorkout(id).then(workout => setWorkoutForm(workout!));
+		}
+	},[id,loadWorkout])
 
 	function handleSubmit(event: React.FormEvent) {
 		event.preventDefault();
-		workoutForm.id ? updateWorkout(workoutForm) : createWorkout(workoutForm);
+		if(workoutForm.id.length === 0){
+			let newWorkout = {
+				...workoutForm,
+				id: uuid()
+			};
+			createWorkout(newWorkout).then(() => navigate(`/workouts/${newWorkout.id}`));
+		} else {
+			updateWorkout(workoutForm).then(() => navigate(`/workouts/${workoutForm.id}`));
+		}
+		 
 	}
 
 	function inputChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
 		const {name, value} = event.target;
 		setWorkoutForm({...workoutForm, [name]: value});
 	}
+
+	if (loadingInitial) return <LoadingComponent content="Loading ..."/>;
 
   	return <Container fluid className="my-5 p-3 border bg-primary text-white rounded">
 			<Form onSubmit={(event) => handleSubmit(event)} autoComplete="off">
@@ -79,7 +100,9 @@ export default observer( function WorkoutForm() {
 						'Submit'
 					)}
 					</Button>
-					<Button onClick={closeForm} variant="danger" type="button" content="Cancel">Cancel</Button>
+					<Link to='/workouts'>
+						<Button  variant="danger" type="button" content="Cancel">Cancel</Button>
+					</Link>
 				</ButtonGroup>
 			</Form>
 		</Container>;

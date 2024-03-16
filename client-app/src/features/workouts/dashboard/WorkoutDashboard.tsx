@@ -7,13 +7,21 @@ import WorkoutJumbotron from './WorkoutJumbotron';
 import WorkoutDetails from '../details/WorkoutDetails';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { useEffect } from 'react';
 
 export default observer(function WorkoutDashboard() {
 	const {workoutStore} = useStore();
-	const {workoutsByDate, selectedWorkout} = workoutStore;
+	const {workoutsByDate, loadWorkouts,workoutRegistry,loadingInitial} = workoutStore;
+	
+	useEffect(() => {
+		if(workoutRegistry.size < 2)loadWorkouts();
+	}, [workoutRegistry.size, loadWorkouts]);
 
 
-	  return (
+	if (loadingInitial) return <LoadingComponent content='Loading workouts...'/>
+	
+	return (
 		<>
 			<WorkoutJumbotron/>
 			<Container className='container-lg-custom'>
@@ -27,8 +35,6 @@ export default observer(function WorkoutDashboard() {
 						))
 					} 
 				</Row>
-				{selectedWorkout &&
-				<WorkoutDetails/>}
 			</Container>
 		</>
   );

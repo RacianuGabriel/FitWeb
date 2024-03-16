@@ -1,14 +1,13 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { Workout } from "../models/workout";
 import agent from "../api/agent";
-import {v4 as uuid} from 'uuid';
 
 export default class WorkoutStore{
 	workoutRegistry = new Map<string, Workout>();
 	selectedWorkout: Workout | undefined = undefined;
 	editMode = false;
 	submitting = false;
-	loadingInitial = true;
+	loadingInitial = false;
 
 	constructor(){
 		makeAutoObservable(this)
@@ -20,46 +19,59 @@ export default class WorkoutStore{
 	}
 
 	loadWorkouts = async () => {
+		this.setLoadingInitial(true);
+
 		try{
 		  	const workouts = await agent.Workouts.list();
-		  	runInAction(() => {
-		  		this.workoutRegistry.clear(); 
-				workouts.forEach(workout => {
-					workout.date = workout.date.split('T')[0];
-					this.workoutRegistry.set(workout.id, workout);
-				})
+			workouts.forEach(workout => {
+				this.setWorkout(workout);
 			})
-				this.setLoadingInitial(false);
+			this.setLoadingInitial(false);
+		} catch (error){
+			console.log(error);
+			this.setLoadingInitial(false);
+		}
+	}
+	
+	loadWorkout = async (id: string) => {
+		let workout = this.getWorkout(id);
+		if(workout){
+			this.selectedWorkout = workout;
+			return workout;
+		} else {
+			this.setLoadingInitial(true);
+			try{
+				workout = await agent.Workouts.details(id);
+				runInAction(() => {
+					if (workout) {
+						this.selectedWorkout = workout;
+						this.setWorkout(workout);
+					}
+					this.setLoadingInitial(false);
+				})
+				return workout;
 			} catch (error){
 				console.log(error);
 				this.setLoadingInitial(false);
 			}
-	  }
+		}
+	}
+
+	private getWorkout = (id: string) => {
+		return this.workoutRegistry.get(id);
+	}
+
+	private setWorkout = (workout: Workout) => {
+		workout.date = workout.date.split('T')[0];
+		this.workoutRegistry.set(workout.id, workout);
+	}
 
 	setLoadingInitial = (state: boolean) => {
 		this.loadingInitial = state;
 	}
 
-	selectWorkout = (id: string) => {
-		this.selectedWorkout = this.workoutRegistry.get(id);
-	}
-
-	cancelSelectedWorkout = () => {
-		this.selectedWorkout = undefined;
-	}
-
-	openForm = (id?: string ) => {
-		id ? this.selectWorkout(id) : this.cancelSelectedWorkout();
-		this.editMode = true;
-	}
-
-	closeForm = () => {
-		this.editMode = false;
-	}
-
 	createWorkout = async (workout: Workout) => {
 		this.submitting = true;
-		workout.id = uuid();
 		try{
 			await agent.Workouts.create(workout);
 			runInAction(() => {
