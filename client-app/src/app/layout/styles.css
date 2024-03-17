@@ -56,3 +56,29 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.home-page {
+  background-image: url('../../../public/assets/homepageBackground.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+}
+
+.home-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* This will create a dimmed effect */
+}
+
+.home-content {
+  position: relative;
+  padding: 10px;
+  border-radius: 10px;
+  width: 80%;
+}

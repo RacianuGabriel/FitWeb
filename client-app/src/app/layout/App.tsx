@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import Navmenu from './Navmenu';
 import WorkoutDashboard from '../../features/workouts/dashboard/WorkoutDashboard';
 import { observer } from 'mobx-react-lite';

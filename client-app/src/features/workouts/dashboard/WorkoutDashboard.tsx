@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/container';
 import WorkoutCard from './WorkoutCard';
 import WorkoutJumbotron from './WorkoutJumbotron';
-import WorkoutDetails from '../details/WorkoutDetails';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
