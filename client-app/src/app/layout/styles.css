@@ -57,7 +57,7 @@
   100% { transform: rotate(360deg); }
 }
 
-.home-page {
+.image-background {
   background-image: url('../../../public/assets/homepageBackground.jpg'); /* Replace with your image path */
   background-size: cover;
   background-position: center;
@@ -66,7 +66,7 @@
   width: 100vw;
 }
 
-.home-page::before {
+.image-background::before {
   content: "";
   position: absolute;
   top: 0;
@@ -76,9 +76,42 @@
   background-color: rgba(0, 0, 0, 0.5); /* This will create a dimmed effect */
 }
 
-.home-content {
+.image-content {
   position: relative;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
   border-radius: 10px;
-  width: 80%;
+  width: 100%;
+}
+
+/* For tablets and small desktops */
+@media (min-width: 768px) {
+  .image-content {
+    width: 80%;
+  }
+}
+
+/* For medium desktops */
+@media (min-width: 992px) {
+  .image-content {
+    width: 70%;
+  }
+}
+
+/* For large desktops and TVs */
+@media (min-width: 1200px) {
+  .image-content {
+    width: 60%;
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.exercise-thumbnail {
+  width:  auto;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 0 10px 0 0;
 }

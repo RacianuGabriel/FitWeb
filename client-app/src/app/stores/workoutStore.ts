@@ -8,6 +8,7 @@ export default class WorkoutStore{
 	editMode = false;
 	submitting = false;
 	loadingInitial = false;
+	
 
 	constructor(){
 		makeAutoObservable(this)

@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 export default function HomePage() {
 	return (
-		<div className='home-page d-flex align-items-center justify-content-center '>
-			<Container className="home-content text-center text-white">
+		<div className='image-background d-flex align-items-center justify-content-center '>
+			<Container className="image-content text-center text-white">
 				<h6 className="text-white">
 					<Link to='/' className="text-white text-decoration-none">Sign up</Link>
 					 - 

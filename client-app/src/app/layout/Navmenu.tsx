@@ -15,7 +15,12 @@ export default observer (function Navmenu() {
 
 	return (
     <>
-      <Navbar expand="md" className='bg-primary' data-bs-theme="dark" style={{padding: 10}}>
+      <Navbar expand="md" 
+              className='bg-primary' 
+              data-bs-theme="dark" 
+              style={{padding: 10}}
+              fixed='top'
+              >
           <Container>
             <Navbar.Brand as={NavLink} to="/">
               <img

@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
-import Card from 'react-bootstrap/Card';
-import WorkoutImage from '../../../workoutImg.jpg';
+import React, { useEffect, useState} from 'react';
+import WorkoutImage from '../../../workout.webp';
 import Button from 'react-bootstrap/Button';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { Link } from 'react-router-dom';
+import { ButtonGroup, Container} from 'react-bootstrap';
+import RoundList from './RoundList';
 
 export default observer(function ActivityDetails() {
 	const {workoutStore} = useStore();
-	const {selectedWorkout,submitting,
-		deleteWorkout,loadWorkout,loadingInitial} = workoutStore;
+	const {selectedWorkout,loadWorkout,loadingInitial} = workoutStore;
 
 	const {id} =useParams<{id: string}>();
+
+	const [selectComments, setSelectComments] = useState(false);
 
 	useEffect(() => {
 		if (id) loadWorkout(id);
@@ -22,30 +23,45 @@ export default observer(function ActivityDetails() {
 	if (loadingInitial || !selectedWorkout) return <LoadingComponent content="Loading ..."/>;
 
 	return (
-		<Card>
-			<Card.Img variant="top" src={WorkoutImage} />
-			<Card.Title>{selectedWorkout.title}</Card.Title>
-			<Card.Body>
-				<h5>{selectedWorkout.description}</h5>
-				<p>{selectedWorkout.category}</p>
-				<h6>{selectedWorkout.date}</h6>
-				<Link to={`/manage/${selectedWorkout.id}`}>
-					<Button variant='success' >Edit</Button>
-				</Link>
-				<Link to="/workouts">
-					<Button variant='danger' onClick={() => deleteWorkout(selectedWorkout.id)}>
-					{submitting ? (
-						<>
-						<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-						<span className="visually-hidden">Loading...</span>
-						</>
-					) : (
-						'Delete'
-					)}
+		<div className='relative'>
+			<Container fluid 
+					   style={{
+						height:'400px',
+						backgroundImage: `url(${WorkoutImage})`,
+						}}
+					   className='image-background d-flex align-items-end justify-content-evenly'>
+				<Container className='text-white relative image-content'>
+					<p>{selectedWorkout.date}</p>
+					<h4 className="text-white">{selectedWorkout.title}</h4>
+					<p>Likes  Comments</p>
+					<ButtonGroup className="d-flex justify-content-evenly">
+					<Button 
+						className={`btn btn-link text-white btn-sm flex-grow-1 `}
+						onClick={() => setSelectComments(false)}
+					>
+						Workout
 					</Button>
-				</Link>
-			</Card.Body>
-		</Card>
+					<Button 
+						className={`btn btn-link text-white btn-sm flex-grow-1 `}
+						onClick={() => setSelectComments(true)}
+					>
+						Comments
+					</Button>
+					</ButtonGroup>
+				</Container>
+			</Container>
+			<Container fluid className='Jumbotron relative bg-light pb-5'>
+				{selectComments ? (
+					<h1>Comments</h1>
+				) : (
+					<>
+						<RoundList/>
+						<RoundList/>
+						<RoundList/>
+					</>
+				)}
+			</Container>
+		</div>
 	)
 }
 )
