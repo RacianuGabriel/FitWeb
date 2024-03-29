@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { ButtonGroup, Container} from 'react-bootstrap';
 import RoundList from './RoundList';
+import WorkoutComments from './WorkoutComments';
 
 export default observer(function ActivityDetails() {
 	const {workoutStore} = useStore();
@@ -52,7 +53,7 @@ export default observer(function ActivityDetails() {
 			</Container>
 			<Container fluid className='Jumbotron relative bg-light pb-5'>
 				{selectComments ? (
-					<h1>Comments</h1>
+					<WorkoutComments/>
 				) : (
 					<>
 						<RoundList/>

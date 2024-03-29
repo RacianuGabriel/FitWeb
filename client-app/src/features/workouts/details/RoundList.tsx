@@ -5,7 +5,7 @@ import WorkoutImage from '../../../workout.webp';
 
 export default function RoundList() {
 	return (
-		<ListGroup className='mt-5 mx-auto image-content shadow-lg '>
+		<ListGroup className='mt-5 p-0 mx-auto image-content shadow-lg '>
 			<ListGroup.Item><h1>Round 1 - Repeat 3 times</h1></ListGroup.Item>
 			<ListGroup.Item>
 			<div className='d-flex align-items-center'>
