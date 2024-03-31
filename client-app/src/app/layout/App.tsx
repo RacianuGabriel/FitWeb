@@ -6,12 +6,14 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import HomePage from '../../features/home/HomePage';
 import WorkoutForm from '../../features/workouts/form/WorkoutForm';
 import WorkoutDetails from '../../features/workouts/details/WorkoutDetails';
+import Footer from './Footer';
 
 function MainLayout({children}: {children: React.ReactNode}) {
   return (
     <Fragment>
       <Navmenu/>
       {children}
+      <Footer/>
     </Fragment>
   );
 }

@@ -19,6 +19,16 @@ export default class WorkoutStore{
 			Date.parse(a.date) - Date.parse(b.date));
 	}
 
+	get groupedWorkouts() {
+		return Object.entries(
+			this.workoutsByDate.reduce((workouts, workout) => {
+				const date = workout.date;
+				workouts[date] = workouts[date] ? [...workouts[date], workout] : [workout];
+				return workouts;
+			}, {} as {[key: string]: Workout[]})
+		)
+	}
+
 	loadWorkouts = async () => {
 		this.setLoadingInitial(true);
 

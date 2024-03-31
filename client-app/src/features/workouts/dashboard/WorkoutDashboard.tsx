@@ -23,8 +23,32 @@ export default observer(function WorkoutDashboard() {
 	return (
 		<>
 			<WorkoutJumbotron/>
-			<Container className='container-lg-custom'>
+			<Container className='p-5 container-lg-custom'>
 				<h2 className='text-center'>Beginner</h2>
+				<Row>
+					{
+						workoutsByDate.map(workout => (
+							<Col key={workout.id} md={4} sm={6} xs={12} >
+								<WorkoutCard workout={workout}/>
+							</Col>
+						))
+					} 
+				</Row>
+			</Container>
+			<Container fluid className='p-5 container-lg-custom'>
+				<h2 className='text-center'>Intermediar</h2>
+				<Row>
+					{
+						workoutsByDate.map(workout => (
+							<Col key={workout.id} md={4} sm={6} xs={12} >
+								<WorkoutCard workout={workout}/>
+							</Col>
+						))
+					} 
+				</Row>
+			</Container>
+			<Container className=' p-5 container-lg-custom' >
+				<h2 className='text-center'>Advanced</h2>
 				<Row>
 					{
 						workoutsByDate.map(workout => (

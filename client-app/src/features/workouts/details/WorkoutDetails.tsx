@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { ButtonGroup, Container} from 'react-bootstrap';
 import RoundList from './RoundList';
-import WorkoutComments from './WorkoutComments';
+import WorkoutComments from './comments/WorkoutComments';
 
 export default observer(function ActivityDetails() {
 	const {workoutStore} = useStore();
