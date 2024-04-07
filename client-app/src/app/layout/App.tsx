@@ -7,6 +7,7 @@ import HomePage from '../../features/home/HomePage';
 import WorkoutForm from '../../features/workouts/form/WorkoutForm';
 import WorkoutDetails from '../../features/workouts/details/WorkoutDetails';
 import Footer from './Footer';
+import TestErrors from '../../features/errors/TestError';
 
 function MainLayout({children}: {children: React.ReactNode}) {
   return (
@@ -25,6 +26,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<HomePage/>}/>
+      <Route path='/errors' element={<TestErrors/>}/>
       <Route path='/workouts' element={<MainLayout><WorkoutDashboard/></MainLayout>}/>
       <Route path='/workouts/:id' element={<MainLayout><WorkoutDetails/></MainLayout>}/>
       <Route path='/createWorkout' element={<MainLayout><WorkoutForm key={location.key} /></MainLayout>} />

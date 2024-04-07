@@ -37,6 +37,7 @@ export default observer (function Navmenu() {
               <Nav className="ms-auto">
                 <Nav.Link as={NavLink} to="/workouts">Home</Nav.Link>
                 <Nav.Link as={NavLink} to="/createWorkout">Create Workout</Nav.Link>
+                <Nav.Link as={NavLink} to="/errors">Errors</Nav.Link>
                 <Button variant="info">Log in</Button>
               </Nav>
             </Navbar.Collapse>
