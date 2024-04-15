@@ -4,6 +4,19 @@
   margin: auto 0; /* Vertically center the separator */
 }
 
+.main-layout-children {
+  margin-top: 60px; /* Adjust this value based on the height of your navbar */
+}
+
+.footer{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 10;
+
+}
+
 .container-fluid .jumbotron, .container .jumbotron {
   border-radius: 6px;
   padding-left: 15px;
@@ -34,6 +47,10 @@
   padding-bottom: 30px;
   padding-top: 30px;
   min-height: 200px;
+}
+
+.large-container {
+  min-height: 40vh; /* Adjust this value as needed */
 }
 
 

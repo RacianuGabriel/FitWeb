@@ -36,9 +36,16 @@ export default observer( function WorkoutForm() {
 				...workoutForm,
 				id: uuid()
 			};
-			createWorkout(newWorkout).then(() => navigate(`/workouts/${newWorkout.id}`));
+			console.log(newWorkout);
+			createWorkout(newWorkout).then((response) => {
+				if(!response)
+					navigate(`/workouts/${newWorkout.id}`)
+			});
 		} else {
-			updateWorkout(workoutForm).then(() => navigate(`/workouts/${workoutForm.id}`));
+			updateWorkout(workoutForm).then((response) => {
+				if(!response)
+					navigate(`/workouts/${workoutForm.id}`)
+			});
 		}
 		 
 	}

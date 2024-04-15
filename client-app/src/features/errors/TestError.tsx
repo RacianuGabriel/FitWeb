@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Button, ButtonGroup} from "react-bootstrap";
 import axios from 'axios';
+import ValidationErrors from './ValidationErrors';
 
 export default function TestErrors() {
     const baseUrl = 'http://localhost:5000/api/'
+    const [errors, setErrors] = useState(null);
+
 
     function handleNotFound() {
         axios.get(baseUrl + 'buggy/not-found').catch(err => console.log(err.response));
@@ -22,18 +25,18 @@ export default function TestErrors() {
     }
 
     function handleBadGuid() {
-        axios.get(baseUrl + 'activities/notaguid').catch(err => console.log(err.response));
+        axios.get(baseUrl + 'workouts/notaguid').catch(err => console.log(err.response));
     }
 
     function handleValidationError() {
-        axios.post(baseUrl + 'activities', {}).catch(err => console.log(err));
+        axios.post(baseUrl + 'workouts', {}).catch(err => {setErrors(err)});
     }
 
     return (
         <>
             <h1 >Test Error component</h1>
             <div>
-                <ButtonGroup  >
+                <ButtonGroup>
                     <Button onClick={handleNotFound}>Not Found</Button>
                     <Button onClick={handleBadRequest} >Bad Request</Button>
                     <Button onClick={handleValidationError}>Validation Error</Button>
@@ -41,6 +44,9 @@ export default function TestErrors() {
                     <Button onClick={handleUnauthorised} >Unauthorised</Button>
                     <Button onClick={handleBadGuid} >Bad Guid</Button>
                 </ButtonGroup>
+                {errors &&
+                <ValidationErrors errors={errors} />
+                }
             </div>
         </>
     )

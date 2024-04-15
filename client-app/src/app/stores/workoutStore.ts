@@ -95,6 +95,7 @@ export default class WorkoutStore{
 			runInAction(() => {
 				this.submitting = false;
 			})
+			return error;
 		}
 	}
 
@@ -113,6 +114,7 @@ export default class WorkoutStore{
 			runInAction(() => {
 				this.submitting = false;
 			})
+			return error;
 		}
 	}
 
