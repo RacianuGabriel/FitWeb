@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootswatch/dist/lux/bootstrap.min.css'
 import 'react-toastify/dist/ReactToastify.min.css';
 import './app/layout/styles.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import { StoreContext, store } from './app/stores/store';

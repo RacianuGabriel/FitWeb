@@ -8,6 +8,7 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { ButtonGroup, Container} from 'react-bootstrap';
 import RoundList from './RoundList';
 import WorkoutComments from './comments/WorkoutComments';
+import { format } from 'date-fns';
 
 export default observer(function ActivityDetails() {
 	const {workoutStore} = useStore();
@@ -32,7 +33,7 @@ export default observer(function ActivityDetails() {
 						}}
 					   className='image-background d-flex align-items-end justify-content-evenly'>
 				<Container className='text-white relative image-content'>
-					<p>{selectedWorkout.date}</p>
+					<p>{format(selectedWorkout.date!,'dd MMM yyyy h:mm aa')}</p>
 					<h4 className="text-white">{selectedWorkout.title}</h4>
 					<p>Likes  Comments</p>
 					<ButtonGroup className="d-flex justify-content-evenly">

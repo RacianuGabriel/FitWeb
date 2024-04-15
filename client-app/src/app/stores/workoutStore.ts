@@ -16,13 +16,13 @@ export default class WorkoutStore{
 
 	get workoutsByDate(){
 		return Array.from(this.workoutRegistry.values()).sort((a, b) => 
-			Date.parse(a.date) - Date.parse(b.date));
+			a.date.getTime() - b.date.getTime());
 	}
 
 	get groupedWorkouts() {
 		return Object.entries(
 			this.workoutsByDate.reduce((workouts, workout) => {
-				const date = workout.date;
+				const date = workout.date.toISOString().split('T')[0];
 				workouts[date] = workouts[date] ? [...workouts[date], workout] : [workout];
 				return workouts;
 			}, {} as {[key: string]: Workout[]})
@@ -73,7 +73,7 @@ export default class WorkoutStore{
 	}
 
 	private setWorkout = (workout: Workout) => {
-		workout.date = workout.date.split('T')[0];
+		workout.date = new Date(workout.date);
 		this.workoutRegistry.set(workout.id, workout);
 	}
 
