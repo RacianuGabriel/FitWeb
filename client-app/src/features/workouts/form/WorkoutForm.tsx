@@ -28,7 +28,8 @@ export default observer( function WorkoutForm() {
 		title: '',
 		description: '',
 		category: '',
-		date: new Date()
+		date: new Date(),
+		difficulty: ''
 	});
 
 	const validationSchema = Yup.object({

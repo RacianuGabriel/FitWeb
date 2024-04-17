@@ -9,8 +9,23 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager)
+        public static async Task SeedData(DataContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            if (!roleManager.Roles.Any())
+            {
+                var roles = new List<IdentityRole>
+                {
+                    new IdentityRole{Name = "Member"},
+                    new IdentityRole{Name = "Admin"},
+                    new IdentityRole{Name = "Trainer"}
+                };
+
+                foreach (var role in roles)
+                {
+                    await roleManager.CreateAsync(role);
+                }
+            }
+
             if (!userManager.Users.Any())
             {
                 var users = new List<AppUser>
@@ -25,19 +40,22 @@ namespace Persistence
                     {
                         DisplayName = "Tom",
                         UserName = "tom",
-                        Email = "tom@test.com"
+                        Email = "trainer@test.com"
                     },
                     new AppUser
                     {
                         DisplayName = "Jane",
                         UserName = "jane",
-                        Email = "jane@test.com"
+                        Email = "admin@test.com"
                     }
                 };
                 foreach (var user in users)
                 {
                     await userManager.CreateAsync(user, "Pa$$w0rd");
                 }
+                await userManager.AddToRoleAsync(users[0], "Member");
+                await userManager.AddToRoleAsync(users[1], "Trainer");
+                await userManager.AddToRoleAsync(users[2], "Admin");
 
             }
             if (context.Workouts.Any()) return;
@@ -49,7 +67,7 @@ namespace Persistence
                     Description = "Workout 1 Description",
                     Category = "Category 1",
                     Date = DateTime.Now.AddMonths(-2),
-                    //Difficulty = "Beginner"
+                    Difficulty = "Beginner"
                 },
                 new Workout
                 {
@@ -57,7 +75,7 @@ namespace Persistence
                     Description = "Workout 2 Description",
                     Category = "Category 2",
                     Date = DateTime.Now.AddMonths(-1),
-                    //Difficulty = "Intermediate"
+                    Difficulty = "Intermediate"
                 },
                 new Workout
                 {
@@ -65,7 +83,7 @@ namespace Persistence
                     Description = "Workout 3 Description",
                     Category = "Category 3",
                     Date = DateTime.Now.AddMonths(-5),
-                    //Difficulty = "Advanced"
+                    Difficulty = "Advanced"
                 }
             };
 

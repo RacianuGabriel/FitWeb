@@ -6,13 +6,22 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.Services
 {
     public class TokenService
     {
-        public string CreateToken(AppUser user)
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IConfiguration _config;
+
+        public TokenService(UserManager<AppUser> userManager, IConfiguration config)
+        {
+            _userManager = userManager;
+            _config = config;
+        }
+        public async Task<string> CreateToken(AppUser user)
         {
             var claims = new List<Claim>
             {
@@ -21,7 +30,13 @@ namespace API.Services
                 new Claim(ClaimTypes.Email, user.Email)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is a much longer key that should be at least sixty-four characters long to be valid."));
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Any())
+            {
+                claims.Add(new Claim(ClaimTypes.Role, roles.First()));
+            }
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor

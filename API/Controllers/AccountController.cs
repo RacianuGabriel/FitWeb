@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Services;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
@@ -37,13 +40,11 @@ namespace API.Controllers
 
             if (result.Succeeded)
             {
-                return new UserDTO
-                {
-                    DisplayName = user.DisplayName,
-                    Token = _tokenService.CreateToken(user),
-                    Username = user.UserName,
-                    Image = null
-                };
+                var roles = await _userManager.GetRolesAsync(user);
+
+
+                return CreateUserObject(user,roles.FirstOrDefault() ?? "Member");
+
             }
 
             return Unauthorized();
@@ -66,25 +67,56 @@ namespace API.Controllers
             {
                 DisplayName = registerDTO.DisplayName,
                 Email = registerDTO.Email,
-                UserName = registerDTO.Username
+                UserName = registerDTO.Username,
             };
+            var role = registerDTO.Role;
 
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
 
             if (result.Succeeded)
             {
-                return new UserDTO
+                
+                if (role == "Trainer")
                 {
-                    DisplayName = user.DisplayName,
-                    Token = "This will be a token",
-                    Username = user.UserName,
-                    Image = null
-                };
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Trainer");
+                    if(!roleResult.Succeeded) return BadRequest("Failed to add to role");
+                }
+                else if(role == "Member")
+                {
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Member");
+                    if(!roleResult.Succeeded) return BadRequest("Failed to add to role");
+                }
+                else return BadRequest("Role not found");
+
+                return CreateUserObject(user,role);
+
             }
 
             return BadRequest("Problem registering user");
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<UserDTO>> GetCurrentUser()
+        {
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return CreateUserObject(user,roles.FirstOrDefault() ?? "Member");
+        }
+
+        private UserDTO CreateUserObject(AppUser user, string role)
+        {
+            return new UserDTO
+            {
+                DisplayName = user.DisplayName,
+                Token = _tokenService.CreateToken(user).Result,
+                Username = user.UserName,
+                Image = "",
+                Role = role
+            };
+        }
 
     }
 }

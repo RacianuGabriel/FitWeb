@@ -4,5 +4,6 @@ export interface Workout {
 	description: string
 	category: string
 	date: Date
+	difficulty: string
   }
   
