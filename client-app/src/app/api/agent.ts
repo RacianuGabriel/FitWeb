@@ -3,6 +3,7 @@ import { Workout } from "../models/workout";
 import { toast } from "react-toastify";
 import eventEmitter from "../../features/emitter/eventEmitter";
 import { store } from "../stores/store";
+import { User, UserFormValues } from "../models/user";
 
 const sleep =(delay: number) => {
 	return new Promise((resolve) => {
@@ -68,8 +69,15 @@ const Workouts = {
 	delete: (id: string) => requests.del<void>(`/workouts/${id}`)
 };
 
+const Account = {
+	current: () => requests.get<User>('/account'),
+	login: (user: UserFormValues) => requests.post<User>('/account/login', user),
+	register: (user: UserFormValues) => requests.post<User>('/account/register', user)
+}
+
 const agent = {
-	Workouts
+	Workouts,
+	Account
 };
 
 
