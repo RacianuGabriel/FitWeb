@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import NotFound from '../../features/errors/NotFound';
 import eventEmitter from '../../features/emitter/eventEmitter';
 import ServerError from '../../features/errors/ServerError';
+import LoginForm from '../../features/users/LoginForm';
 
 
 function MainLayout({children}: {children: React.ReactNode}) {
@@ -42,7 +43,7 @@ function App() {
     return () => {
       eventEmitter.off('redirect', handleRedirect);
     };
-  }, []);
+  }, [navigate]);
 
   return (
     <>
@@ -50,6 +51,7 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage/>}/>
         <Route path='/errors' element={<TestErrors/>}/>
+        <Route path='/login' element={<LoginForm/>}/>
         <Route path='/workouts' element={<MainLayout><WorkoutDashboard/></MainLayout>}/>
         <Route path='/workouts/:id' element={<MainLayout><WorkoutDetails/></MainLayout>}/>
         <Route path='/createWorkout' element={<MainLayout><WorkoutForm key={location.key} /></MainLayout>} />

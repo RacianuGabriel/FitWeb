@@ -13,7 +13,7 @@ export default observer(function WorkoutDashboard() {
 	
 	
 	const {workoutStore} = useStore();
-	const {workoutsByDate, workoutsByDifficulty, groupedWorkouts, loadWorkouts,loadingInitial} = workoutStore;
+	const { groupedWorkouts, loadWorkouts,loadingInitial} = workoutStore;
 	
 	useEffect(() => {
 		loadWorkouts();

@@ -12,6 +12,7 @@ import MyTextInput from "../../../app/common/form/MyTextInputs";
 import MyTextArea from "../../../app/common/form/MyTextArea";
 import MySelectInput from "../../../app/common/form/MySelectInput";
 import { categoryOptions } from "../../../app/common/options/categoryOptions";
+import { difficultyOptions } from "../../../app/common/options/difficultyOptions";
 import MyDateInput from "../../../app/common/form/MyDateInput";
 import { Workout } from "../../../app/models/workout";
 
@@ -36,7 +37,8 @@ export default observer( function WorkoutForm() {
 		title: Yup.string().required('Title is required'),
 		description: Yup.string().required('Description is required'),
 		category: Yup.string().required('Category is required'),
-		date: Yup.string().required('Date is required')
+		date: Yup.string().required('Date is required'),
+		difficulty: Yup.string().required('Difficulty is required')
 	});
 	
 	useEffect(() => {
@@ -78,6 +80,7 @@ export default observer( function WorkoutForm() {
 						<MyTextInput name="title" placeholder="Enter title" label="Title" />
 						<MyTextArea rows={5} name="description" placeholder="Enter description" label="Description" />
 						<MySelectInput name="category" placeholder="Enter category" label="Category" options={categoryOptions} />
+						<MySelectInput name="difficulty" placeholder="Enter difficulty" label="Difficulty" options={difficultyOptions} />
 						<MyDateInput 
 							name="date" 
 							placeholderText="Enter date" 

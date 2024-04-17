@@ -9,11 +9,11 @@ export default function HomePage() {
 				<h6 className="text-white">
 					<Link to='/' className="text-white text-decoration-none">Sign up</Link>
 					 - 
-					<Link to='/' className="text-white text-decoration-none">Log in</Link>
+					<Link to='/login' className="text-white text-decoration-none">Log in</Link>
 				</h6>
 				<h1 className="text-white">Welcome to FitWeb</h1>
 				<p>Your journey to fitness begins here. Sign up, log in, and unlock a world of premium workout plans tailored to your goals.</p>
-				<Link to='/workouts' 
+				<Link to='/login' 
 					  className="btn btn-primary"
 					  style={{margin: '0.5rem 1rem'}}>Start Training</Link>
 				<Link to='/' className="btn btn-secondary">Learn More</Link>
