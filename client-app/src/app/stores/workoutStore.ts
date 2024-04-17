@@ -19,11 +19,22 @@ export default class WorkoutStore{
 			a.date.getTime() - b.date.getTime());
 	}
 
+	get workoutsByDifficulty() {
+		return Array.from(this.workoutRegistry.values()).sort((a, b) => {
+			const difficultyLevels = {
+				'Beginner': 1,
+				'Intermediate': 2,
+				'Advanced': 3
+			};
+	
+			return difficultyLevels[a.difficulty as keyof typeof difficultyLevels] - difficultyLevels[b.difficulty as keyof typeof difficultyLevels];
+		});
+	}
 	get groupedWorkouts() {
 		return Object.entries(
-			this.workoutsByDate.reduce((workouts, workout) => {
-				const date = workout.date.toISOString().split('T')[0];
-				workouts[date] = workouts[date] ? [...workouts[date], workout] : [workout];
+			this.workoutsByDifficulty.reduce((workouts, workout) => {
+				const difficulty = workout.difficulty;
+				workouts[difficulty] = workouts[difficulty] ? [...workouts[difficulty], workout] : [workout];
 				return workouts;
 			}, {} as {[key: string]: Workout[]})
 		)

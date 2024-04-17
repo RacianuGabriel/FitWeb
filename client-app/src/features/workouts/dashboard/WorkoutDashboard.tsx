@@ -10,12 +10,14 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { useEffect } from 'react';
 
 export default observer(function WorkoutDashboard() {
+	
+	
 	const {workoutStore} = useStore();
-	const {workoutsByDate, loadWorkouts,workoutRegistry,loadingInitial} = workoutStore;
+	const {workoutsByDate, workoutsByDifficulty, groupedWorkouts, loadWorkouts,loadingInitial} = workoutStore;
 	
 	useEffect(() => {
-		if(workoutRegistry.size < 2)loadWorkouts();
-	}, [workoutRegistry.size, loadWorkouts]);
+		loadWorkouts();
+	}, [loadWorkouts]);
 
 
 	if (loadingInitial) return <LoadingComponent content='Loading workouts...'/>
@@ -23,42 +25,22 @@ export default observer(function WorkoutDashboard() {
 	return (
 		<>
 			<WorkoutJumbotron/>
-			<Container className='p-5 container-lg-custom'>
-				<h2 className='text-center'>Beginner</h2>
-				<Row>
-					{
-						workoutsByDate.map(workout => (
-							<Col key={workout.id} md={4} sm={6} xs={12} >
-								<WorkoutCard workout={workout}/>
-							</Col>
-						))
-					} 
-				</Row>
-			</Container>
-			<Container fluid className='p-5 container-lg-custom'>
-				<h2 className='text-center'>Intermediar</h2>
-				<Row>
-					{
-						workoutsByDate.map(workout => (
-							<Col key={workout.id} md={4} sm={6} xs={12} >
-								<WorkoutCard workout={workout}/>
-							</Col>
-						))
-					} 
-				</Row>
-			</Container>
-			<Container className=' p-5 container-lg-custom' >
-				<h2 className='text-center'>Advanced</h2>
-				<Row>
-					{
-						workoutsByDate.map(workout => (
-							<Col key={workout.id} md={4} sm={6} xs={12} >
-								<WorkoutCard workout={workout}/>
-							</Col>
-						))
-					} 
-				</Row>
-			</Container>
+			{
+				groupedWorkouts.map(([difficulty, workouts]) => (
+					<Container key={difficulty} className='p-5 container-lg-custom'>
+						<h2 className='text-center'>{difficulty}</h2>
+						<Row>
+							{
+								workouts.map(workout => (
+									<Col key={workout.id} md={4} sm={6} xs={12} >
+										<WorkoutCard workout={workout}/>
+									</Col>
+								))
+							} 
+						</Row>
+					</Container>
+				))
+			}
 		</>
   );
 })

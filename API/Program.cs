@@ -3,7 +3,6 @@ using API.Middleware;
 using Application.Workouts;
 using Domain;
 using FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;

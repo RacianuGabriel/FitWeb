@@ -42,7 +42,7 @@ function App() {
     return () => {
       eventEmitter.off('redirect', handleRedirect);
     };
-  }, [navigate]);
+  }, []);
 
   return (
     <>
