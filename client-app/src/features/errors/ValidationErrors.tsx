@@ -1,15 +1,15 @@
 import React from 'react'
 
 interface Props {
-	errors: string[];
+	errors: any;
 }
 
 export default function ValidationErrors({errors}: Props) {
 	return (
 		<div>
 			<ul>
-				{errors.map((err, i) => (
-					<li key={i}>{err}</li>
+				{errors.map((err: any, i: any) => (
+					<li key={i} className="text-danger">{err}</li>
 				))}
 			</ul>
 		</div>

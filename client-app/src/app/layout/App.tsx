@@ -13,6 +13,9 @@ import NotFound from '../../features/errors/NotFound';
 import eventEmitter from '../../features/emitter/eventEmitter';
 import ServerError from '../../features/errors/ServerError';
 import LoginForm from '../../features/users/LoginForm';
+import { useStore } from '../stores/store';
+import LoadingComponent from './LoadingComponent';
+import ModalContainer from '../common/modals/ModalContainer';
 
 
 function MainLayout({children}: {children: React.ReactNode}) {
@@ -33,6 +36,16 @@ function App() {
 
   const navigate = useNavigate();
 
+  const {commonStore, userStore} = useStore();
+
+  useEffect(() => {
+    if(commonStore.token) {
+      userStore.getUser().finally(() => commonStore.setAppLoaded());
+    } else {
+      commonStore.setAppLoaded();
+    }
+  }, [commonStore, userStore]);
+
   useEffect(() => {
     const handleRedirect = (path: string) => {
       navigate(path);
@@ -45,9 +58,12 @@ function App() {
     };
   }, [navigate]);
 
+  if(!commonStore.appLoaded) return <LoadingComponent content='Loading app...'/>
+
   return (
     <>
       <ToastContainer position='bottom-right' hideProgressBar />
+      <ModalContainer />
       <Routes>
         <Route path='/' element={<HomePage/>}/>
         <Route path='/errors' element={<TestErrors/>}/>
