@@ -26,7 +26,7 @@ namespace Persistence
                 }
             }
 
-            if (!userManager.Users.Any())
+            if (!userManager.Users.Any() && !context.Workouts.Any())
             {
                 var users = new List<AppUser>
                 {
@@ -57,38 +57,72 @@ namespace Persistence
                 await userManager.AddToRoleAsync(users[1], "Trainer");
                 await userManager.AddToRoleAsync(users[2], "Admin");
 
-            }
-            if (context.Workouts.Any()) return;
-            var workouts = new List<Workout>
-            {
-                new Workout
-                {
-                    Title = "Upper Body Workout",
-                    Description = "Workout 1 Description",
-                    Category = "Category 1",
-                    Date = DateTime.Now.AddMonths(-2),
-                    Difficulty = "Beginner"
-                },
-                new Workout
-                {
-                    Title = "Lower Body Workout",
-                    Description = "Workout 2 Description",
-                    Category = "Category 2",
-                    Date = DateTime.Now.AddMonths(-1),
-                    Difficulty = "Intermediate"
-                },
-                new Workout
-                {
-                    Title = "Cardio Workout",
-                    Description = "Workout 3 Description",
-                    Category = "Category 3",
-                    Date = DateTime.Now.AddMonths(-5),
-                    Difficulty = "Advanced"
-                }
-            };
 
-            await context.Workouts.AddRangeAsync(workouts);
-            await context.SaveChangesAsync();
+                var workouts = new List<Workout>
+                {
+                    new Workout
+                    {
+                        Title = "Upper Body Workout",
+                        Description = "Workout 1 Description",
+                        Category = "Category 1",
+                        Date = DateTime.Now.AddMonths(-2),
+                        Difficulty = "Beginner",
+                        Attendees = new List<WorkoutAttendee>
+                            {
+                                new WorkoutAttendee
+                                {
+                                    AppUser = users[0],
+                                    IsHost = true
+                                }
+                            }
+                    },
+                    new Workout
+                    {
+                        Title = "Lower Body Workout",
+                        Description = "Workout 2 Description",
+                        Category = "Category 2",
+                        Date = DateTime.Now.AddMonths(-1),
+                        Difficulty = "Intermediate",
+                        Attendees = new List<WorkoutAttendee>
+                            {
+                                new WorkoutAttendee
+                                {
+                                    AppUser = users[0],
+                                    IsHost = true
+                                },
+                                new WorkoutAttendee
+                                {
+                                    AppUser = users[1],
+                                    IsHost = false
+                                }
+                            }
+                    },
+                    new Workout
+                    {
+                        Title = "Cardio Workout",
+                        Description = "Workout 3 Description",
+                        Category = "Category 3",
+                        Date = DateTime.Now.AddMonths(-5),
+                        Difficulty = "Advanced",
+                        Attendees = new List<WorkoutAttendee>
+                            {
+                                new WorkoutAttendee
+                                {
+                                    AppUser = users[1],
+                                    IsHost = true
+                                },
+                                new WorkoutAttendee
+                                {
+                                    AppUser = users[2],
+                                    IsHost = false
+                                }
+                            }
+                    }
+                };
+
+                await context.Workouts.AddRangeAsync(workouts);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

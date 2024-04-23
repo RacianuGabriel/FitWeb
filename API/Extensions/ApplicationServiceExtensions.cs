@@ -1,4 +1,6 @@
+using Application.Interfaces;
 using FluentValidation.AspNetCore;
+using Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -27,6 +29,7 @@ namespace API.Extensions
 
             services.AddMediatR(typeof(Application.Workouts.List.Handler).Assembly);
             services.AddAutoMapper(typeof(Application.Core.MappingProfiles).Assembly);
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
             return services;
         }
