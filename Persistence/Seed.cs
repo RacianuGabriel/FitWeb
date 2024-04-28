@@ -65,7 +65,7 @@ namespace Persistence
                         Title = "Upper Body Workout",
                         Description = "Workout 1 Description",
                         Category = "Category 1",
-                        Date = DateTime.Now.AddMonths(-2),
+                        Date = DateTime.Now.AddMonths(-2).ToUniversalTime(),
                         Difficulty = "Beginner",
                         Attendees = new List<WorkoutAttendee>
                             {
@@ -81,7 +81,7 @@ namespace Persistence
                         Title = "Lower Body Workout",
                         Description = "Workout 2 Description",
                         Category = "Category 2",
-                        Date = DateTime.Now.AddMonths(-1),
+                        Date = DateTime.Now.AddMonths(-1).ToUniversalTime(),
                         Difficulty = "Intermediate",
                         Attendees = new List<WorkoutAttendee>
                             {
@@ -102,7 +102,7 @@ namespace Persistence
                         Title = "Cardio Workout",
                         Description = "Workout 3 Description",
                         Category = "Category 3",
-                        Date = DateTime.Now.AddMonths(-5),
+                        Date = DateTime.Now.AddMonths(-5).ToUniversalTime(),
                         Difficulty = "Advanced",
                         Attendees = new List<WorkoutAttendee>
                             {

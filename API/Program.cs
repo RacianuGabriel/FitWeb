@@ -53,12 +53,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
+
 app.MapControllers();
+app.MapFallbackToController("Index", "Fallback");
 
 await app.RunAsync();
