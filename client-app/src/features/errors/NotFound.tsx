@@ -14,7 +14,7 @@ export default function NotFound(){
             </Row>
             <Row className="justify-content-md-center text-center">
                 <Col md="auto">
-                    <Link className="btn btn-primary" to="/workout">Return to first page</Link>
+                    <Link className="btn btn-primary" to="/workouts">Return to first page</Link>
                 </Col>
             </Row>
         </Container>

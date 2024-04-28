@@ -12,7 +12,6 @@ import { ToastContainer } from 'react-toastify';
 import NotFound from '../../features/errors/NotFound';
 import eventEmitter from '../../features/emitter/eventEmitter';
 import ServerError from '../../features/errors/ServerError';
-import LoginForm from '../../features/users/LoginForm';
 import { useStore } from '../stores/store';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
@@ -67,7 +66,6 @@ function App() {
       <Routes>
         <Route path='/' element={<HomePage/>}/>
         <Route path='/errors' element={<TestErrors/>}/>
-        <Route path='/login' element={<LoginForm/>}/>
         <Route path='/workouts' element={<MainLayout><WorkoutDashboard/></MainLayout>}/>
         <Route path='/workouts/:id' element={<MainLayout><WorkoutDetails/></MainLayout>}/>
         <Route path='/createWorkout' element={<MainLayout><WorkoutForm key={location.key} /></MainLayout>} />

@@ -3,7 +3,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import Image from 'react-bootstrap/Image';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
-import icon2 from '../../icon2.svg';
 import Button  from 'react-bootstrap/Button';
 import WorkoutDetails from '../../features/workouts/details/WorkoutDetails';
 import { useStore } from '../stores/store';
@@ -11,10 +10,11 @@ import { observer } from 'mobx-react-lite';
 import { NavLink } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
-import { FaCaretDown } from 'react-icons/fa';
+import LoginForm from '../../features/users/LoginForm';
 
 export default observer (function Navmenu() {
   const {workoutStore} = useStore();
+  const {modalStore} = useStore();
   const {userStore: {user, logout, isLoggedIn}} = useStore();
 
 	return (
@@ -28,7 +28,7 @@ export default observer (function Navmenu() {
           <Container>
             <Navbar.Brand as={NavLink} to="/">
               <img
-                src={icon2}
+                src="/assets/icon2.svg"
                 width="30"
                 height="30"
                 className="d-inline-block align-top"
@@ -63,7 +63,7 @@ export default observer (function Navmenu() {
                     </Dropdown>
                   </>
                 ) : (
-                  <Link to="/login" className='btn btn-info'>Log in</Link>
+                  <Button variant='info' onClick={() => modalStore.openModal(<LoginForm/>)}>Log in</Button>
                 )
                 }
                 

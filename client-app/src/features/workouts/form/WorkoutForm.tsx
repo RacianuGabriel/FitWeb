@@ -14,7 +14,7 @@ import MySelectInput from "../../../app/common/form/MySelectInput";
 import { categoryOptions } from "../../../app/common/options/categoryOptions";
 import { difficultyOptions } from "../../../app/common/options/difficultyOptions";
 import MyDateInput from "../../../app/common/form/MyDateInput";
-import { Workout } from "../../../app/models/workout";
+import { WorkoutFormValues } from "../../../app/models/workout";
 
 export default observer( function WorkoutForm() {
 	const {workoutStore} = useStore();
@@ -24,14 +24,7 @@ export default observer( function WorkoutForm() {
 
 	const {id} = useParams<{id: string}>();
 
-	const [workout, setWorkout] =useState({
-		id: '',
-		title: '',
-		description: '',
-		category: '',
-		date: new Date(),
-		difficulty: ''
-	});
+	const [workout, setWorkout] =useState(new WorkoutFormValues());
 
 	const validationSchema = Yup.object({
 		title: Yup.string().required('Title is required'),
@@ -43,12 +36,12 @@ export default observer( function WorkoutForm() {
 	
 	useEffect(() => {
 		if (id) {
-			loadWorkout(id).then(workout => setWorkout(workout!));
+			loadWorkout(id).then(workout => setWorkout(new WorkoutFormValues(workout)));
 		}
 	},[id,loadWorkout])
 
-	function handleFormSubmit(workout: Workout) {
-		if(workout.id.length === 0){
+	function handleFormSubmit(workout: WorkoutFormValues) {
+		if(!workout.id){
 			let newWorkout = {
 				...workout,
 				id: uuid()

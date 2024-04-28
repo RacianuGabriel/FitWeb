@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +29,11 @@ namespace API.Extensions
             });
 
             services.AddMediatR(typeof(Application.Workouts.List.Handler).Assembly);
+            services.AddMediatR(typeof(Application.Photos.Delete.Command).Assembly);
             services.AddAutoMapper(typeof(Application.Core.MappingProfiles).Assembly);
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
             return services;
         }

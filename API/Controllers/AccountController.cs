@@ -5,6 +5,7 @@ using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -28,7 +29,8 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
-            var user = await _userManager.FindByEmailAsync(loginDTO.email);
+            var user = await _userManager.Users.Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.Email == loginDTO.email);
 
             if (user == null) return Unauthorized();
 
@@ -39,7 +41,7 @@ namespace API.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
 
 
-                return CreateUserObject(user,roles.FirstOrDefault() ?? "Member");
+                return CreateUserObject(user, roles.FirstOrDefault() ?? "Member");
 
             }
 
@@ -73,20 +75,20 @@ namespace API.Controllers
 
             if (result.Succeeded)
             {
-                
+
                 if (role == "Trainer")
                 {
                     var roleResult = await _userManager.AddToRoleAsync(user, "Trainer");
-                    if(!roleResult.Succeeded) return BadRequest("Failed to add to role");
+                    if (!roleResult.Succeeded) return BadRequest("Failed to add to role");
                 }
-                else if(role == "Member")
+                else if (role == "Member")
                 {
                     var roleResult = await _userManager.AddToRoleAsync(user, "Member");
-                    if(!roleResult.Succeeded) return BadRequest("Failed to add to role");
+                    if (!roleResult.Succeeded) return BadRequest("Failed to add to role");
                 }
                 else return BadRequest("Role not found");
 
-                return CreateUserObject(user,role);
+                return CreateUserObject(user, role);
 
             }
 
@@ -97,11 +99,12 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            var user = await _userManager.Users.Include(p => p.Photos)
+                .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
             var roles = await _userManager.GetRolesAsync(user);
 
-            return CreateUserObject(user,roles.FirstOrDefault() ?? "Member");
+            return CreateUserObject(user, roles.FirstOrDefault() ?? "Member");
         }
 
         private UserDTO CreateUserObject(AppUser user, string role)
@@ -111,7 +114,7 @@ namespace API.Controllers
                 DisplayName = user.DisplayName,
                 Token = _tokenService.CreateToken(user).Result,
                 Username = user.UserName,
-                Image = "",
+                Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url,
                 Role = role
             };
         }

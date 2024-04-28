@@ -19,6 +19,6 @@ namespace Application.Workouts
         public string HostUsername { get; set; }
         
         public bool IsLiked { get; set; }
-        public ICollection<Profile> Attendees { get; set; }
+        public ICollection<AttendeeDTO> Attendees { get; set; }
     }
 }

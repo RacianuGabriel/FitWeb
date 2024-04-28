@@ -18,6 +18,8 @@ namespace Persistence
         public DbSet<Workout> Workouts { get; set; }
         public DbSet<WorkoutAttendee> WorkoutAttendees { get; set; }
 
+        public DbSet<Photo> Photos { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

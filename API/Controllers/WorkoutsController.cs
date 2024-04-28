@@ -8,6 +8,7 @@ namespace API.Controllers
 {
     public class WorkoutsController : BaseApiController
     {
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetWorkouts()
         {

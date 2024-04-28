@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Workout } from "../models/workout";
+import { Workout, WorkoutFormValues } from "../models/workout";
 import { toast } from "react-toastify";
 import eventEmitter from "../../features/emitter/eventEmitter";
 import { store } from "../stores/store";
@@ -71,9 +71,10 @@ const requests = {
 const Workouts = {
 	list: () => requests.get<Workout[]>('/workouts'),
 	details: (id: string) => requests.get<Workout>(`/workouts/${id}`),
-	create: (workout: Workout) => requests.post<void>('/workouts', workout),
-	update: (workout: Workout) => requests.put<void>(`/workouts/${workout.id}`, workout),
-	delete: (id: string) => requests.del<void>(`/workouts/${id}`)
+	create: (workout: WorkoutFormValues) => requests.post<void>('/workouts', workout),
+	update: (workout: WorkoutFormValues) => requests.put<void>(`/workouts/${workout.id}`, workout),
+	delete: (id: string) => requests.del<void>(`/workouts/${id}`),
+	attend: (id: string) => requests.post<void>(`/workouts/${id}/like`, {})
 };
 
 const Account = {
