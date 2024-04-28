@@ -69,7 +69,7 @@ function App() {
         <Route path='/' element={<HomePage/>}/>
         <Route path='/about-us' element={<AboutUs/>}/>
         <Route path='/profile/:username' element={<MainLayout><ProfilePage/></MainLayout>}/>
-        <Route path='/errors' element={<TestErrors/>}/>
+        {/* <Route path='/errors' element={<TestErrors/>}/> */}
         <Route path='/workouts' element={<MainLayout><WorkoutDashboard/></MainLayout>}/>
         <Route path='/workouts/:id' element={<MainLayout><WorkoutDetails/></MainLayout>}/>
         <Route path='/createWorkout' element={<MainLayout><WorkoutForm key={location.key} /></MainLayout>} />
