@@ -31,7 +31,7 @@ export default observer (function HomePage() {
 				<Link to='/workouts' 
 				className="btn btn-primary"
 				style={{margin: '0.5rem 1rem'}}>Start Training</Link>
-				<Link to='/' className="btn btn-secondary">Learn More</Link>
+				<Link to='/about-us' className="btn btn-secondary">Learn More</Link>
 			</Container>
 		</div>
 	)

@@ -13,7 +13,7 @@ export default observer (function LikesList({attendees}: Props){
 		<ListGroup>
 			{attendees.map(attendee => (
 				<ListGroup.Item key={attendee.username} 
-					as={Link} to={`/profiles/${attendee.username}`}>
+					as={Link} to={`/profile/${attendee.username}`}>
 					<Image 
 						roundedCircle
 						src={attendee.image || '/assets/user.png'}

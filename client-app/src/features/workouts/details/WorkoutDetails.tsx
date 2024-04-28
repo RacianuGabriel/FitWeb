@@ -39,7 +39,7 @@ export default observer(function ActivityDetails() {
 					   className='image-background d-flex align-items-end justify-content-evenly'>
 				<Container className='text-white relative image-content'>
 					<p>{format(selectedWorkout.date!,'dd MMM yyyy h:mm aa')}</p>
-					<p>Training by {selectedWorkout.hostUsername}</p>
+					<p>Training by <Link to={`/profile/${selectedWorkout.hostUsername}`} className='text-white text-decoration-none'>{selectedWorkout.hostUsername}</Link></p>
 					<h4 className="text-white">{selectedWorkout.title}</h4>
 					<div className="d-flex justify-content-between">
 						<span 

@@ -15,6 +15,8 @@ import ServerError from '../../features/errors/ServerError';
 import { useStore } from '../stores/store';
 import LoadingComponent from './LoadingComponent';
 import ModalContainer from '../common/modals/ModalContainer';
+import ProfilePage from '../../features/profile/ProfilePage';
+import AboutUs from '../../features/home/AboutUs';
 
 
 function MainLayout({children}: {children: React.ReactNode}) {
@@ -61,10 +63,12 @@ function App() {
 
   return (
     <>
-      <ToastContainer position='bottom-right' hideProgressBar />
+      <ToastContainer position='bottom-right' hideProgressBar /> 
       <ModalContainer />
       <Routes>
         <Route path='/' element={<HomePage/>}/>
+        <Route path='/about-us' element={<AboutUs/>}/>
+        <Route path='/profile/:username' element={<MainLayout><ProfilePage/></MainLayout>}/>
         <Route path='/errors' element={<TestErrors/>}/>
         <Route path='/workouts' element={<MainLayout><WorkoutDashboard/></MainLayout>}/>
         <Route path='/workouts/:id' element={<MainLayout><WorkoutDetails/></MainLayout>}/>

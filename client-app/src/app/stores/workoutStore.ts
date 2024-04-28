@@ -27,6 +27,21 @@ export default class WorkoutStore{
 			a.date.getTime() - b.date.getTime());
 	}
 
+	get workoutsByHostname() {
+		return (hostname: string) => {
+			return Array.from(this.workoutRegistry.values()).filter(workout => workout.hostUsername === hostname);
+		}
+	  }
+	
+	get workoutByAttendee() {
+		return (username: string) => {
+			return Array.from(this.workoutRegistry.values()).filter(workout => 
+				workout.attendees?.some(a => a.username === username) &&
+				!(workout.hostUsername === username && workout.isLiked === false)
+			  );
+		}
+	}
+
 	get workoutsByDifficulty() {
 		return Array.from(this.workoutRegistry.values()).sort((a, b) => {
 			const difficultyLevels = {

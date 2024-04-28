@@ -38,46 +38,22 @@ export default function Footer() {
       <Row className="mt-3">
         <Col md={3} lg={4} xl={3} className="mx-auto mb-4">
           <h6 className="text-white mb-4">
-            Company name
+            FitWeb
           </h6>
           <p>
-            Here you can use rows and columns to organize your footer content. Lorem ipsum
-            dolor sit amet, consectetur adipisicing elit.
+          Explore our diverse range of services and products. 
+          Committed to delivering excellence and value, we strive to improve your experience.
           </p>
         </Col>
-        <Col md={2} lg={2} xl={2} className="mx-auto mb-4">
-          <h6 className="text-white mb-4">
-            Products
-          </h6>
-          <p>
-            <Link to="/angular" className="text-reset">Angular</Link>
-          </p>
-          <p>
-            <Link to="/react" className="text-reset">React</Link>
-          </p>
-          <p>
-            <Link to="/vue" className="text-reset">Vue</Link>
-          </p>
-          <p>
-            <Link to="/laravel" className="text-reset">Laravel</Link>
-          </p>
-        </Col>
-        <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
-          <h6 className="text-white mb-4">
-            Useful links
-          </h6>
-          <p>
-            <Link to="/pricing" className="text-reset">Pricing</Link>
-          </p>
-          <p>
-            <Link to="/settings" className="text-reset">Settings</Link>
-          </p>
-          <p>
-            <Link to="/orders" className="text-reset">Orders</Link>
-          </p>
-          <p>
-            <Link to="/help" className="text-reset">Help</Link>
-          </p>
+        <Col md={5} lg={4} xl={4} className="mx-auto mb-4">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2849.729963233502!2d26.08382851175372!3d44.41818667095553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1ff0b54881f97%3A0xae84d2f47f65a3a7!2sAcademia%20Tehnic%C4%83%20Militar%C4%83%20Ferdinand%20I!5e0!3m2!1sro!2sro!4v1714330704247!5m2!1sro!2sro" 
+          style={{border: '0'}} 
+          allowFullScreen 
+          className='w-100 h-100'
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
         </Col>
         <Col md={4} lg={3} xl={3} className="mx-auto mb-md-0 mb-4">
           <h6 className="text-white mb-4">Contact</h6>
@@ -92,10 +68,6 @@ export default function Footer() {
       </Row>
     </Container>
   </section>
-  <div className="text-center p-4" style={{backgroundColor: "rgba(0, 0, 0, 0.05)"}}>
-    © 2021 Copyright:
-    <Link className="text-reset" to="https://mdbootstrap.com/">MDBootstrap.com</Link>
-  </div>
 </footer>
 	)
 }

@@ -18,3 +18,4 @@ namespace Application.Profiles
         public ICollection<Photo> Photos { get; set; } = new List<Photo>();
     }
 }
+
